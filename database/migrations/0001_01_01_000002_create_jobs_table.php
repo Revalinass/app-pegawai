@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jobs', function (Blueprint $table) {
-            $table->id();
-            $table->string('queue')->index();
-            $table->longText('payload');
-            $table->unsignedTinyInteger('attempts');
-            $table->unsignedInteger('reserved_at')->nullable();
-            $table->unsignedInteger('available_at');
-            $table->unsignedInteger('created_at');
-        });
+        Schema::create('employees', function (Blueprint $table) { 
+            $table->id(); 
+            $table->string('nama_lengkap', 100);  
+            $table->string('email', 100) ;
+            $table->string('nomor_telepon', 15); 
+            $table->date('tanggal_lahir');  
+            $table->text('alamat'); 
+            $table->date('tanggal_masuk'); 
+            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');  
+            $table->timestamps(); 
+        }); 
 
         Schema::create('job_batches', function (Blueprint $table) {
             $table->string('id')->primary();
@@ -50,7 +52,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('employees');
         Schema::dropIfExists('job_batches');
         Schema::dropIfExists('failed_jobs');
     }
