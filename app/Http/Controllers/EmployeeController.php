@@ -12,7 +12,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::all();
+        $employees = Employee::latest()->paginate(5);
         return view('employees.index', compact('employees'));
     }
 
@@ -42,7 +42,7 @@ class EmployeeController extends Controller
         Employee::create($request->all());
 
         return redirect()->route('employees.index')
-            ->with('success', 'Data karyawan berhasil ditambahkan.');
+            ->with('success', 'Data ditambahkan.');
     }
 
     /**
@@ -82,7 +82,7 @@ class EmployeeController extends Controller
         $employee->update($request->all());
 
         return redirect()->route('employees.index')
-            ->with('success', 'Data karyawan berhasil diperbarui.');
+            ->with('success', 'Data berhasil diupdate');
     }
 
     /**
