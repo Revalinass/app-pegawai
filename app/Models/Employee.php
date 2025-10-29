@@ -7,12 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     protected $fillable = [
-        'nama_lengkap',
-        'email',
-        'nomor_telepon',
-        'tanggal_lahir',
-        'alamat',
-        'tanggal_masuk',
-        'status',
-    ];
+    'nama_lengkap',
+    'email',
+    'nomor_telepon',
+    'tanggal_lahir',
+    'alamat',
+    'tanggal_masuk',
+    'status',
+    'department_id',
+    'posisi',
+];
+
+public function department()
+{
+    return $this->belongsTo(Department::class);
+}
+
+public function attendances()
+{
+    return $this->hasMany(Attendance::class);
+}
+
 }
