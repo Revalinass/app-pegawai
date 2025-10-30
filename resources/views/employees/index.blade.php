@@ -29,11 +29,8 @@
                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-700">No</th>
                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-700">Nama Lengkap</th>
                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-700">Email</th>
-                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-700">Nomor Telepon</th>
-                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-700">Alamat</th>
                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-700">Department</th>
                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-700">Posisi</th>
-                    <th class="px-6 py-3 text-center text-xs font-bold text-gray-700">Tanggal Masuk</th>
                     <th class="px-6 py-3 text-center text-xs font-bold text-gray-700">Status</th>
                     <th class="px-6 py-3 text-center text-xs font-bold text-gray-700">Aksi</th>
                 </tr>
@@ -50,23 +47,28 @@
                     <td class="px-6 py-4 text-sm text-gray-700">
                         {{ $employee->email }}
                     </td>
+                    {{--
                     <td class="px-6 py-4 text-sm text-gray-700">
                         {{ $employee->nomor_telepon }}
                     </td>
+                    
                     <td class="px-6 py-4 text-sm text-gray-700">
                         <div class="max-w-xs">
                             {{ Str::limit($employee->alamat, 50, '...') }}
                         </div>
                     </td>
+                    --}}
                     <td class="px-6 py-4 text-sm text-gray-700">
                         {{ $employee->department->nama_department ?? '-' }}
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-700">
                         {{ $employee->posisi ?? '-' }}
                     </td>
+                    {{--
                     <td class="px-6 py-4 text-center text-sm text-gray-700">
                         {{ \Carbon\Carbon::parse($employee->tanggal_masuk)->format('d/m/Y') }}
                     </td>
+                    --}}
                     <td class="px-6 py-4 text-center">
                         @if($employee->status == 'aktif')
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">

@@ -38,7 +38,6 @@
                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-700">Jam Masuk</th>
                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-700">Jam Keluar</th>
                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-700">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-700">Keterangan</th>
                     <th class="px-6 py-3 text-center text-xs font-bold text-gray-700">Aksi</th>
                 </tr>
             </thead>
@@ -74,9 +73,11 @@
                             <span class="px-3 py-1 text-xs font-medium rounded-full bg-red-100 text-red-700">Alfa</span>
                         @endif
                     </td>
+                    {{--
                     <td class="px-6 py-4 text-sm text-gray-700">
                         {{ $attendance->keterangan ?? '-' }}
                     </td>
+                    --}}
                     <td class="px-6 py-4">
                     <div class="flex items-center justify-center gap-2">
                         <!-- Tombol Show/Detail -->
