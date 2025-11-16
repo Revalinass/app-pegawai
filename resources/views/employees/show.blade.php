@@ -5,32 +5,37 @@
 
 @section('content')
 
-<!-- Back Button & Title -->
+<!-- Header -->
 <div class="mb-6">
-    <button onclick="history.back()" class="flex items-center text-gray-600 hover:text-gray-800 mb-4 transition duration-200">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-        </svg>
-        <span class="font-medium">Kembali</span>
-    </button>
-    <h2 class="text-2xl font-bold text-gray-800">Detail Pegawai</h2>
+    <div class="flex items-center gap-3 mb-2">
+        <a href="{{ route('employees.index') }}" 
+           class="p-2 hover:bg-gray-100 rounded-lg transition-all">
+            <i data-lucide="arrow-left" class="w-5 h-5 text-gray-600"></i>
+        </a>
+        <div>
+            <h2 class="text-xl font-bold text-gray-800">Detail Pegawai</h2>
+            <p class="text-sm text-gray-500 mt-1">Informasi lengkap data pegawai</p>
+        </div>
+    </div>
 </div>
 
 <!-- Detail Card -->
-<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div class="bg-white rounded-lg shadow border overflow-hidden max-w-3xl">
     <!-- Card Header -->
-    <div class="bg-pink-500 text-white px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center">
-            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-            </svg>
-            <h3 class="text-lg font-semibold">Informasi Pegawai</h3>
-        </div>
+    <div class="bg-gradient-to-r from-rose to-accent p-4 flex items-center justify-between">
+        <h3 class="text-white font-semibold flex items-center gap-2">
+            <i data-lucide="user" class="w-5 h-5"></i>
+            Informasi Pegawai
+        </h3>
         <!-- Status Badge -->
         @if($employee->status == 'aktif')
-            <span class="bg-green-100 text-green-800 px-4 py-1.5 rounded-full text-sm font-medium">Aktif</span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold bg-green-100 text-green-700">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span> Aktif
+            </span>
         @else
-            <span class="bg-red-100 text-red-800 px-4 py-1.5 rounded-full text-sm font-medium">Nonaktif</span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold bg-gray-100 text-gray-700">
+                <span class="w-2 h-2 bg-gray-500 rounded-full"></span> Nonaktif
+            </span>
         @endif
     </div>
 
@@ -43,95 +48,88 @@
                 <p class="text-lg font-semibold text-gray-900">{{ $employee->nama_lengkap }}</p>
             </div>
 
-            <!-- Email -->
-            <div class="pb-5 border-b border-gray-200">
-                <label class="block text-sm font-medium text-gray-500 mb-2">Email</label>
-                <p class="text-base text-gray-900">{{ $employee->email }}</p>
-            </div>
-
-            <!-- Nomor Telepon -->
-            <div class="pb-5 border-b border-gray-200">
-                <label class="block text-sm font-medium text-gray-500 mb-2">Nomor Telepon</label>
-                <p class="text-base text-gray-900">{{ $employee->nomor_telepon }}</p>
+            <!-- Email & Telepon -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pb-5 border-b border-gray-200">
+                <div>
+                    <label class="block text-sm font-medium text-gray-500 mb-2">Email</label>
+                    <p class="text-base text-gray-900">{{ $employee->email }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-500 mb-2">Nomor Telepon</label>
+                    <p class="text-base text-gray-900">{{ $employee->nomor_telepon }}</p>
+                </div>
             </div>
 
             <!-- Tanggal Lahir -->
             <div class="pb-5 border-b border-gray-200">
                 <label class="block text-sm font-medium text-gray-500 mb-2">Tanggal Lahir</label>
-                <p class="text-base text-gray-900">{{ \Carbon\Carbon::parse($employee->tanggal_lahir)->format('d F Y') }}</p>
-                <p class="text-sm text-gray-500 mt-1">{{ \Carbon\Carbon::parse($employee->tanggal_lahir)->age }} tahun</p>
-            </div>
-
-            <!-- Alamat -->
-            <div class="pb-5 border-b border-gray-200">
-                <label class="block text-sm font-medium text-gray-500 mb-2">Alamat</label>
-                <p class="text-base text-gray-900 leading-relaxed">{{ $employee->alamat }}</p>
-            </div>
-
-            <!-- Department -->
-            <div class="pb-5 border-b border-gray-200">
-                <label class="block text-sm font-medium text-gray-500 mb-2">Department</label>
-                <p class="text-base text-gray-900">{{ $employee->department->nama_department }}</p>
-            </div>
-
-            <!-- Posisi -->
-            <div class="pb-5 border-b border-gray-200">
-                <label class="block text-sm font-medium text-gray-500 mb-2">Posisi</label>
-                <p class="text-base text-gray-900">{{ $employee->posisi }}</p>
+                <p class="text-base text-gray-900">{{ $employee->tanggal_lahir->format('d F Y') }}</p>
+                <p class="text-sm text-gray-500 mt-1">{{ $employee->tanggal_lahir->age }} tahun</p>
             </div>
 
             <!-- Tanggal Masuk -->
             <div class="pb-5 border-b border-gray-200">
                 <label class="block text-sm font-medium text-gray-500 mb-2">Tanggal Masuk</label>
-                <p class="text-base text-gray-900">{{ \Carbon\Carbon::parse($employee->tanggal_masuk)->format('d F Y') }}</p>
-                <p class="text-sm text-gray-500 mt-1">
-                    Masa kerja: {{ \Carbon\Carbon::parse($employee->tanggal_masuk)->diffForHumans(null, true) }}
-                </p>
+                <p class="text-base text-gray-900">{{ $employee->tanggal_masuk->format('d F Y') }}</p>
+                <p class="text-sm text-gray-500 mt-1">Lama bekerja: {{ $employee->tanggal_masuk->diffForHumans(['parts' => 2]) }}</p>
             </div>
 
-            <!-- Status -->
-            <div class="pb-5">
-                <label class="block text-sm font-medium text-gray-500 mb-2">Status Pegawai</label>
-                <p class="text-base text-gray-900 capitalize">{{ $employee->status }}</p>
+            <!-- Alamat -->
+            <div class="pb-5 border-b border-gray-200">
+                <label class="block text-sm font-medium text-gray-500 mb-2">Alamat</label>
+                <p class="text-base text-gray-900">{{ $employee->alamat }}</p>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
-                {{-- Uncomment jika ingin mengaktifkan tombol Edit
-                <a href="{{ route('employees.edit', $employee->id) }}" 
-                   class="bg-pink-500 hover:bg-pink-600 text-white font-medium px-6 py-3 rounded-lg transition duration-200 flex items-center justify-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                    </svg>
-                    Edit Pegawai
-                </a>
-                --}}
-                
-                <button type="button" 
-                        onclick="history.back()"
-                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-6 py-3 rounded-lg transition duration-200 flex items-center justify-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                    </svg>
-                    Kembali
-                </button>
-                
-                {{-- Uncomment jika ingin mengaktifkan tombol Hapus
-                <form action="{{ route('employees.destroy', $employee->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pegawai ini?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" 
-                            class="w-full bg-red-500 hover:bg-red-600 text-white font-medium px-6 py-3 rounded-lg transition duration-200 flex items-center justify-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                        </svg>
-                        Hapus
-                    </button>
-                </form>
-                --}}
+            <!-- Department & Position -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pb-5 border-b border-gray-200">
+                <div>
+                    <label class="block text-sm font-medium text-gray-500 mb-2">Department</label>
+                    <p class="text-base text-gray-900">
+                        {{ $employee->department->nama_department ?? '-' }}
+                    </p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-500 mb-2">Posisi</label>
+                    <p class="text-base text-gray-900">{{ $employee->position->nama_posisi }}</p>
+                </div>
+            </div>
+
+            <!-- Gaji Pokok -->
+            <div class="pb-5 border-b border-gray-200">
+                <label class="block text-sm font-medium text-gray-500 mb-2">Gaji Pokok</label>
+                <p class="text-lg font-bold text-gray-900">Rp {{ number_format($employee->position->gaji_pokok, 0, ',', '.') }}</p>
+            </div>
+
+            <!-- Timestamp -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-500 mb-2">Dibuat Pada</label>
+                    <p class="text-sm text-gray-700">{{ $employee->created_at->format('d M Y, H:i') }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-500 mb-2">Terakhir Diubah</label>
+                    <p class="text-sm text-gray-700">{{ $employee->updated_at->format('d M Y, H:i') }}</p>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Card Footer -->
+    <div class="bg-gray-50 px-6 py-4 flex gap-3">
+        <a href="{{ route('employees.edit', $employee->id) }}" 
+           class="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-rose to-accent text-white rounded-lg hover:shadow-lg transition-all font-semibold">
+            <i data-lucide="edit" class="w-4 h-4"></i>
+            Edit
+        </a>
+        <a href="{{ route('employees.index') }}" 
+           class="flex items-center gap-2 px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-semibold">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            Kembali
+        </a>
+    </div>
 </div>
 
+<script>
+    lucide.createIcons();
+</script>
 @endsection

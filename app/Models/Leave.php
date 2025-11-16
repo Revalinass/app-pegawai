@@ -4,22 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Attendance extends Model
+class Leave extends Model
 {
     protected $fillable = [
         'employee_id',
-        'tanggal',
-        'jam_masuk',
-        'jam_keluar',
+        'tanggal_mulai',
+        'tanggal_selesai',
+        'alasan',
         'status',
-        'keterangan',
     ];
 
     protected $casts = [
-        'tanggal' => 'date',
+        'tanggal_mulai' => 'date',
+        'tanggal_selesai' => 'date',
     ];
-
-    // ===== RELASI =====
     
     // Relasi ke Employee
     public function employee()

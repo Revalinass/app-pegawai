@@ -8,79 +8,76 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    // Menampilkan daftar absensi
     public function index()
     {
-        // Ubah jadi $attendances (plural)
-        $attendances = Attendance::with('employee')->latest()->paginate(10);
-        return view('attendance.index', compact('attendances'));
+        $attendances = Attendance::with('employee')
+                                 ->orderBy('tanggal', 'desc')
+                                 ->paginate(15);
+        
+        return view('attendances.index', compact('attendances'));
     }
 
-    // Menampilkan form tambah
     public function create()
     {
         $employees = Employee::where('status', 'aktif')->get();
-        return view('attendance.create', compact('employees'));
+        return view('attendances.create', compact('employees'));
     }
 
-    // Menyimpan data absensi baru
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'employee_id' => 'required|exists:employees,id',
             'tanggal' => 'required|date',
-            'jam_masuk' => 'required',
-            'jam_keluar' => 'nullable',
-            'status' => 'required|in:hadir,izin,sakit,alfa',
-            'keterangan' => 'nullable|string'
+            'jam_masuk' => 'nullable|date_format:H:i',
+            'jam_keluar' => 'nullable|date_format:H:i',
+            'status' => 'required|in:hadir,izin,sakit,alpha',
+            'keterangan' => 'nullable|string',
         ]);
 
-        Attendance::create($request->all());
+        Attendance::create($validated);
 
-        return redirect()->route('attendance.index')
-            ->with('success', 'Data absensi berhasil ditambahkan');
+        return redirect()->route('attendances.index')
+                         ->with('success', 'Data kehadiran berhasil ditambahkan!');
     }
-    
+
     public function show($id)
     {
-        $attendance = Attendance::with('employee')->findOrFail($id);
-        return view('attendance.show', compact('attendance'));
+        $attendance = Attendance::with(['employee', 'employee.position'])->findOrFail($id);
+        return view('attendances.show', compact('attendance'));
     }
 
-    // Menampilkan form edit
     public function edit($id)
     {
         $attendance = Attendance::findOrFail($id);
         $employees = Employee::where('status', 'aktif')->get();
-        return view('attendance.edit', compact('attendance', 'employees'));
+        return view('attendances.edit', compact('attendance', 'employees'));
     }
 
-    // Update data absensi
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $attendance = Attendance::findOrFail($id);
+
+        $validated = $request->validate([
             'employee_id' => 'required|exists:employees,id',
             'tanggal' => 'required|date',
-            'jam_masuk' => 'required',
-            'jam_keluar' => 'nullable',
-            'status' => 'required|in:hadir,izin,sakit,alfa',
-            'keterangan' => 'nullable|string'
+            'jam_masuk' => 'nullable|date_format:H:i',
+            'jam_keluar' => 'nullable|date_format:H:i',
+            'status' => 'required|in:hadir,izin,sakit,alpha',
+            'keterangan' => 'nullable|string',
         ]);
 
-        $attendance = Attendance::findOrFail($id);
-        $attendance->update($request->all());
+        $attendance->update($validated);
 
-        return redirect()->route('attendance.index')
-            ->with('success', 'Data absensi berhasil diupdate');
+        return redirect()->route('attendances.index')
+                         ->with('success', 'Data kehadiran berhasil diupdate!');
     }
 
-    // Hapus data absensi
     public function destroy($id)
     {
         $attendance = Attendance::findOrFail($id);
         $attendance->delete();
 
-        return redirect()->route('attendance.index')
-            ->with('success', 'Data absensi berhasil dihapus');
+        return redirect()->route('attendances.index')
+                         ->with('success', 'Data kehadiran berhasil dihapus!');
     }
 }

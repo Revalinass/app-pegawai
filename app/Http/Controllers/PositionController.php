@@ -9,7 +9,10 @@ class PositionController extends Controller
 {
     public function index()
     {
-        $positions = Position::latest()->paginate(10);
+        $positions = Position::withCount('employees')
+                             ->orderBy('gaji_pokok', 'desc')
+                             ->paginate(10);
+        
         return view('positions.index', compact('positions'));
     }
 
@@ -21,42 +24,49 @@ class PositionController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_jabatan' => 'required|string|max:100',
+            'nama_posisi' => 'required|string|max:100',
             'gaji_pokok' => 'required|numeric|min:0',
         ]);
 
         Position::create($validated);
 
         return redirect()->route('positions.index')
-            ->with('success', 'Position berhasil ditambahkan!');
+                         ->with('success', 'Posisi berhasil ditambahkan!');
     }
-    public function show(Position $position)
+
+    public function edit($id)
     {
-        return view('positions.show', compact('position'));
-    }
-    public function edit(Position $position)
-    {
+        $position = Position::findOrFail($id);
         return view('positions.edit', compact('position'));
     }
 
-    public function update(Request $request, Position $position)
+    public function update(Request $request, $id)
     {
+        $position = Position::findOrFail($id);
+
         $validated = $request->validate([
-            'nama_jabatan' => 'required|string|max:100',
+            'nama_posisi' => 'required|string|max:100',
             'gaji_pokok' => 'required|numeric|min:0',
         ]);
 
         $position->update($validated);
 
         return redirect()->route('positions.index')
-            ->with('success', 'Position berhasil diupdate!');
+                         ->with('success', 'Posisi berhasil diupdate!');
     }
 
-    public function destroy(Position $position)
+    public function destroy($id)
     {
+        $position = Position::findOrFail($id);
         $position->delete();
 
         return redirect()->route('positions.index')
-            ->with('success', 'Position berhasil dihapus!');
+                         ->with('success', 'Posisi berhasil dihapus!');
+    }
+    
+    public function show($id)
+    {
+    $position = Position::with('employees')->findOrFail($id);
+    return view('positions.show', compact('position'));
     }
 }

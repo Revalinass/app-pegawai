@@ -84,10 +84,10 @@
                     <span class="font-semibold text-[13px]">Departments</span>
                 </a>
                 
-                <a href="{{ url('/attendance') }}" 
+                <a href="{{ url('/attendances') }}" 
                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:bg-accent/5 text-gray-700 hover:text-accent group border border-transparent hover:border-accent/20">
                     <i data-lucide="clipboard-check" class="w-5 h-5 text-accent/70 group-hover:text-accent"></i>
-                    <span class="font-semibold text-[13px]">Attendance</span>
+                    <span class="font-semibold text-[13px]">Attendances</span>
                 </a>
                 
                 <a href="{{ url('/salaries') }}" 
@@ -102,6 +102,12 @@
                     <span class="font-semibold text-[13px]">Positions</span>
                 </a>
 
+                <a href="{{ url('/leaves') }}" 
+                class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:bg-accent/5 text-gray-700 hover:text-accent group border border-transparent hover:border-accent/20">
+                 <i data-lucide="calendar-x" class="w-5 h-5 text-accent/70 group-hover:text-accent"></i>
+                     <span class="font-semibold text-[13px]">Leaves</span>
+                </a>
+
                 {{--
                 <a href="{{ url('/report') }}" 
                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:bg-darkpink/5 text-gray-700 hover:text-darkpink group border border-transparent hover:border-darkpink/20">
@@ -110,11 +116,10 @@
                 </a>
                 --}}
             </div>
-        
+            {{--
             <!-- Divider -->
             <div class="my-4 border-t border-gray-200"></div>
 
-            {{--
             <!-- Settings -->
             <div class="space-y-1">
                 <a href="{{ url('/settings') }}" 

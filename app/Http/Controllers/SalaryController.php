@@ -10,72 +10,79 @@ class SalaryController extends Controller
 {
     public function index()
     {
-        $salaries = Salary::with('employee')->latest()->paginate(10);
+        $salaries = Salary::with(['employee.position'])
+                          ->orderBy('periode', 'desc')
+                          ->paginate(10);
+        
         return view('salaries.index', compact('salaries'));
     }
 
     public function create()
     {
-        $employees = Employee::all();
+        $employees = Employee::where('status', 'aktif')->get();
         return view('salaries.create', compact('employees'));
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'employee_id' => 'required',
-        'gaji_pokok' => 'required|numeric',
-        'tunjangan' => 'nullable|numeric',
-        'periode' => 'required|string',
-    ]);
-
-    // Hitung total gaji otomatis
-    $totalGaji = $request->gaji_pokok + ($request->tunjangan ?? 0);
-
-    // Simpan ke database
-    Salary::create([
-        'employee_id' => $request->employee_id,
-        'gaji_pokok' => $request->gaji_pokok,
-        'tunjangan' => $request->tunjangan ?? 0,
-        'total_gaji' => $totalGaji,
-        'periode' => $request->periode,
-    ]);
-
-    return redirect()
-        ->route('salaries.index')
-        ->with('success', 'Data gaji berhasil ditambahkan!');
-}
-
-    public function show(Salary $salary)
     {
-        
-        $salary->load('employee');
+        $validated = $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'periode' => 'required|date',
+            'gaji_pokok' => 'required|numeric|min:0',
+            'tunjangan' => 'nullable|numeric|min:0',
+            'potongan' => 'nullable|numeric|min:0',
+        ]);
+
+        // Set default values
+        $validated['tunjangan'] = $validated['tunjangan'] ?? 0;
+        $validated['potongan'] = $validated['potongan'] ?? 0;
+
+        Salary::create($validated);
+
+        return redirect()->route('salaries.index')
+                         ->with('success', 'Data gaji berhasil ditambahkan!');
+    }
+
+    public function show($id)
+    {
+        $salary = Salary::with('employee')->findOrFail($id);
         return view('salaries.show', compact('salary'));
     }
 
-    public function edit(Salary $salary)
+    public function edit($id)
     {
-        $employees = Employee::all();
+        $salary = Salary::findOrFail($id);
+        $employees = Employee::where('status', 'aktif')->get();
         return view('salaries.edit', compact('salary', 'employees'));
     }
 
-    public function update(Request $request, Salary $salary)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'employee_id' => 'required',
-            'gaji_pokok' => 'required|numeric',
-            'tunjangan' => 'nullable|numeric',
-            'total_gaji' => 'required|numeric',
-            'periode' => 'required|string',
+        $salary = Salary::findOrFail($id);
+
+        $validated = $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'periode' => 'required|date',
+            'gaji_pokok' => 'required|numeric|min:0',
+            'tunjangan' => 'nullable|numeric|min:0',
+            'potongan' => 'nullable|numeric|min:0',
         ]);
 
-        $salary->update($request->all());
-        return redirect()->route('salaries.index')->with('success', 'Data gaji berhasil diperbarui!');
+        $validated['tunjangan'] = $validated['tunjangan'] ?? 0;
+        $validated['potongan'] = $validated['potongan'] ?? 0;
+
+        $salary->update($validated);
+
+        return redirect()->route('salaries.index')
+                         ->with('success', 'Data gaji berhasil diupdate!');
     }
 
-    public function destroy(Salary $salary)
+    public function destroy($id)
     {
+        $salary = Salary::findOrFail($id);
         $salary->delete();
-        return redirect()->route('salaries.index')->with('success', 'Data gaji berhasil dihapus!');
+
+        return redirect()->route('salaries.index')
+                         ->with('success', 'Data gaji berhasil dihapus!');
     }
 }

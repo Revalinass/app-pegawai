@@ -1,136 +1,187 @@
 @extends('employees.master')
 @section('title', 'Tambah Gaji')
-@section('page-title', 'Tambah Data Gaji')
-@section('page-subtitle', 'Input data gaji bulanan untuk pegawai')
+@section('page-title', 'Tambah Gaji')
+@section('page-subtitle', 'Input data gaji pegawai')
 
 @section('content')
 
-<!-- Back Button & Title -->
+<!-- Header -->
 <div class="mb-6">
-    <button onclick="history.back()" class="flex items-center text-gray-600 hover:text-gray-800 mb-4">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-        </svg>
-    </button>
+    <div class="flex items-center gap-3 mb-2">
+        <a href="{{ route('salaries.index') }}" 
+           class="p-2 hover:bg-gray-100 rounded-lg transition-all">
+            <i data-lucide="arrow-left" class="w-5 h-5 text-gray-600"></i>
+        </a>
+        <div>
+            <h2 class="text-xl font-bold text-gray-800">Tambah Data Gaji</h2>
+            <p class="text-sm text-gray-500 mt-1">Lengkapi form di bawah untuk menambah data gaji</p>
+        </div>
+    </div>
 </div>
 
 <!-- Form Card -->
-<div class="bg-white rounded-lg shadow-sm">
-    <!-- Form Header -->
-    <div class="bg-pink-500 text-white px-6 py-4 rounded-t-lg flex items-center">
-        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-        </svg>
-        <h3 class="text-lg font-semibold">Form Tambah Gaji</h3>
+<div class="bg-white rounded-lg shadow border overflow-hidden max-w-3xl">
+    <div class="bg-gradient-to-r from-rose to-accent p-4">
+        <h3 class="text-white font-semibold flex items-center gap-2">
+            <i data-lucide="wallet" class="w-5 h-5"></i>
+            Form Tambah Gaji
+        </h3>
     </div>
-
-    <!-- Form Body -->
+    
     <form action="{{ route('salaries.store') }}" method="POST" class="p-6">
         @csrf
-
-        <div class="space-y-6">
-            <!-- Nama Pegawai -->
-            <div>
-                <label for="employee_id" class="block text-sm font-medium text-gray-700 mb-2">
-                    Nama Pegawai <span class="text-red-500">*</span>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Pegawai -->
+            <div class="md:col-span-2">
+                <label for="employee_id" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Pegawai <span class="text-red-500">*</span>
                 </label>
-                <select name="employee_id" 
-                        id="employee_id" 
-                        required
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition">
+                <select id="employee_id" 
+                        name="employee_id" 
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('employee_id') border-red-500 @enderror"
+                        required>
                     <option value="">-- Pilih Pegawai --</option>
                     @foreach($employees as $employee)
-                        <option value="{{ $employee->id }}">{{ $employee->nama_lengkap }}</option>
+                        <option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
+                            {{ $employee->nama_lengkap }} - {{ $employee->position->nama_posisi }}
+                        </option>
                     @endforeach
                 </select>
+                @error('employee_id')
+                    <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                        {{ $message }}
+                    </p>
+                @enderror
+            </div>
+
+            <!-- Periode -->
+            <div class="md:col-span-2">
+                <label for="periode" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Periode <span class="text-red-500">*</span>
+                </label>
+                <input type="month" 
+                       id="periode" 
+                       name="periode" 
+                       value="{{ old('periode', date('Y-m')) }}"
+                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('periode') border-red-500 @enderror" 
+                       required>
+                @error('periode')
+                    <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                        {{ $message }}
+                    </p>
+                @enderror
             </div>
 
             <!-- Gaji Pokok -->
             <div>
-                <label for="gaji_pokok" class="block text-sm font-medium text-gray-700 mb-2">
+                <label for="gaji_pokok" class="block text-sm font-semibold text-gray-700 mb-2">
                     Gaji Pokok <span class="text-red-500">*</span>
                 </label>
-                <input type="number" 
-                       name="gaji_pokok" 
-                       id="gaji_pokok" 
-                       required
-                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition"
-                       placeholder="Masukkan nominal gaji pokok">
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
+                    <input type="number" 
+                           id="gaji_pokok" 
+                           name="gaji_pokok" 
+                           value="{{ old('gaji_pokok') }}"
+                           class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('gaji_pokok') border-red-500 @enderror" 
+                           placeholder="5000000"
+                           required>
+                </div>
+                @error('gaji_pokok')
+                    <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                        {{ $message }}
+                    </p>
+                @enderror
             </div>
 
             <!-- Tunjangan -->
             <div>
-                <label for="tunjangan" class="block text-sm font-medium text-gray-700 mb-2">
-                    Tunjangan (Opsional)
+                <label for="tunjangan" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Tunjangan
                 </label>
-                <input type="number" 
-                       name="tunjangan" 
-                       id="tunjangan"
-                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition"
-                       >
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
+                    <input type="number" 
+                           id="tunjangan" 
+                           name="tunjangan" 
+                           value="{{ old('tunjangan', 0) }}"
+                           class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('tunjangan') border-red-500 @enderror" 
+                           placeholder="0">
+                </div>
+                @error('tunjangan')
+                    <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                        {{ $message }}
+                    </p>
+                @enderror
             </div>
 
-            <!-- Total Gaji (otomatis) -->
-            <div>
-                <label for="total_gaji" class="block text-sm font-medium text-gray-700 mb-2">
-                    Total Gaji
+            <!-- Potongan -->
+            <div class="md:col-span-2">
+                <label for="potongan" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Potongan
                 </label>
-                <input type="number" 
-                       name="total_gaji" 
-                       id="total_gaji" 
-                       readonly
-                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition bg-gray-50"
-                       placeholder="Akan terhitung otomatis">
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
+                    <input type="number" 
+                           id="potongan" 
+                           name="potongan" 
+                           value="{{ old('potongan', 0) }}"
+                           class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('potongan') border-red-500 @enderror" 
+                           placeholder="0">
+                </div>
+                @error('potongan')
+                    <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                        {{ $message }}
+                    </p>
+                @enderror
             </div>
 
-            <!-- Periode -->
-            <div>
-                <label for="periode" class="block text-sm font-medium text-gray-700 mb-2">
-                    Periode <span class="text-red-500">*</span>
-                </label>
-                <input type="text" 
-                       name="periode" 
-                       id="periode" 
-                       required
-                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition"
-                       >
+            <!-- Info Total (Read-only display) -->
+            <div class="md:col-span-2 bg-gradient-to-r from-rose/5 to-accent/5 p-4 rounded-lg border border-rose/20">
+                <p class="text-sm text-gray-600 mb-1">Total Gaji (otomatis terhitung)</p>
+                <p class="text-2xl font-bold text-gray-800">
+                    Rp <span id="total-display">0</span>
+                </p>
             </div>
+        </div>
 
-            <!-- Buttons -->
-            <div class="flex gap-3 pt-4">
-                <button type="submit" 
-                        class="bg-pink-500 hover:bg-pink-600 text-white font-medium px-6 py-2.5 rounded-lg transition duration-200 flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    Simpan Data
-                </button>
-                <button type="button" 
-                        onclick="history.back()"
-                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-6 py-2.5 rounded-lg transition duration-200 flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                    Batal
-                </button>
-            </div>
+        <!-- Buttons -->
+        <div class="flex gap-3 pt-6 mt-6 border-t">
+            <button type="submit" 
+                    class="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-rose to-accent text-white rounded-lg hover:shadow-lg transition-all font-semibold">
+                <i data-lucide="save" class="w-4 h-4"></i>
+                Simpan Gaji
+            </button>
+            <a href="{{ route('salaries.index') }}" 
+               class="flex items-center gap-2 px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all font-semibold">
+                <i data-lucide="x" class="w-4 h-4"></i>
+                Batal
+            </a>
         </div>
     </form>
 </div>
 
 <script>
-    const gajiPokok = document.getElementById('gaji_pokok');
-    const tunjangan = document.getElementById('tunjangan');
-    const totalGaji = document.getElementById('total_gaji');
-
-    function hitungTotal() {
-        const pokok = parseFloat(gajiPokok.value) || 0;
-        const bonus = parseFloat(tunjangan.value) || 0;
-        totalGaji.value = pokok + bonus;
+    lucide.createIcons();
+    
+    // Auto calculate total
+    function calculateTotal() {
+        const gajiPokok = parseFloat(document.getElementById('gaji_pokok').value) || 0;
+        const tunjangan = parseFloat(document.getElementById('tunjangan').value) || 0;
+        const potongan = parseFloat(document.getElementById('potongan').value) || 0;
+        
+        const total = gajiPokok + tunjangan - potongan;
+        document.getElementById('total-display').textContent = total.toLocaleString('id-ID');
     }
-
-    gajiPokok.addEventListener('input', hitungTotal);
-    tunjangan.addEventListener('input', hitungTotal);
+    
+    document.getElementById('gaji_pokok').addEventListener('input', calculateTotal);
+    document.getElementById('tunjangan').addEventListener('input', calculateTotal);
+    document.getElementById('potongan').addEventListener('input', calculateTotal);
 </script>
-
 @endsection

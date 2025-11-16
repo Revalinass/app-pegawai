@@ -108,7 +108,7 @@
                             <p class="text-gray-600">Akses cepat dengan keamanan data yang terjamin</p>
                         </div>
                     </div>
-                    {{--
+                    
                     <div class="flex items-start gap-4">
                         <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center flex-shrink-0">
                             <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,13 +116,10 @@
                             </svg>
                         </div>
                         <div>
-                            {{--
                             <h3 class="font-semibold text-gray-900 text-lg">Analytics & Reports</h3>
                             <p class="text-gray-600">Laporan dan statistik lengkap untuk keputusan yang lebih baik</p>
-                         
                         </div>
                     </div>
-                    --}}
                 </div>
 
                 <!-- CTA Buttons -->
