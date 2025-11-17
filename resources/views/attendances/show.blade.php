@@ -124,13 +124,7 @@
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
-                <a href="{{ route('attendances.edit', $attendance->id) }}" 
-                   class="flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-rose to-accent text-white rounded-lg hover:shadow-lg transition-all font-semibold">
-                    <i data-lucide="edit" class="w-4 h-4"></i>
-                    Edit Absensi
-                </a>
-                
+            <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">              
                 <a href="{{ route('attendances.index') }}"
                    class="flex items-center justify-center gap-2 px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all font-semibold">
                     <i data-lucide="arrow-left" class="w-4 h-4"></i>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Salary;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SalaryController extends Controller
 {
@@ -85,4 +86,31 @@ class SalaryController extends Controller
         return redirect()->route('salaries.index')
                          ->with('success', 'Data gaji berhasil dihapus!');
     }
+
+    /**
+     * Download Slip Gaji sebagai PDF
+     */
+    public function downloadSlip($id)
+    {
+    try {
+        $salary = Salary::with(['employee', 'employee.position', 'employee.department'])
+                        ->findOrFail($id);
+        
+        $bulan = \Carbon\Carbon::parse($salary->periode)->locale('id')->isoFormat('MMMM YYYY');
+        $tanggal_cetak = now()->locale('id')->isoFormat('dddd, DD MMMM YYYY HH:mm') . ' WIB';
+        $employee = $salary->employee;
+        
+        $pdf = Pdf::loadView('salaries.slip-pdf', compact('salary', 'employee', 'bulan', 'tanggal_cetak'));
+        $pdf->setPaper('a4', 'portrait');
+        
+        $fileName = 'slip-gaji-' . 
+                    str_replace(' ', '-', strtolower($employee->nama_lengkap)) . '-' . 
+                    \Carbon\Carbon::parse($salary->periode)->format('Y-m') . '.pdf';
+        
+        return $pdf->download($fileName);
+        
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal generate PDF: ' . $e->getMessage());
+        }
+    }  
 }

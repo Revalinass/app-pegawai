@@ -85,14 +85,12 @@
                                 <i data-lucide="eye" class="w-4 h-4"></i>
                                 <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Detail</span>
                             </a>
-                            
-                            @if($leave->status == 'pending')
+                    
                             <a href="{{ route('leaves.edit', $leave->id) }}" 
                                class="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all group relative">
                                 <i data-lucide="pencil" class="w-4 h-4"></i>
                                 <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Edit</span>
                             </a>
-                            @endif
                             
                             <form action="{{ route('leaves.destroy', $leave->id) }}" method="POST" class="inline">
                                 @csrf

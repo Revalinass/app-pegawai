@@ -61,6 +61,12 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex items-center justify-center gap-2">
+                            <a href="{{ route('departments.show', $department->id) }}" 
+                               class="p-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all group relative">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                                <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Detail</span>
+                            </a>
+
                             <a href="{{ route('departments.edit', $department->id) }}" 
                                class="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all group relative">
                                 <i data-lucide="pencil" class="w-4 h-4"></i>

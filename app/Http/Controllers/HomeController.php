@@ -26,8 +26,8 @@ class HomeController extends Controller
     {
         $data = [
             'totalUsers' => User::count(),
-            'totalEmployees' => 50, // Nanti bisa diganti dengan model Employee
-            'totalDepartments' => 5, // Nanti bisa diganti dengan model Department
+            'totalEmployees' => 50, 
+            'totalDepartments' => 5, 
             'user' => auth()->user(),
         ];
 

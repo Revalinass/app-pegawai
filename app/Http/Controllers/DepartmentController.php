@@ -34,6 +34,14 @@ class DepartmentController extends Controller
         return redirect()->route('departments.index')
                          ->with('success', 'Department berhasil ditambahkan!');
     }
+    public function show($id)
+    {
+        $department = Department::with(['employees' => function($query) {
+            $query->orderBy('nama_lengkap', 'asc');
+        }])->withCount('employees')->findOrFail($id);
+        
+        return view('departments.show', compact('department'));
+    }
 
     public function edit($id)
     {

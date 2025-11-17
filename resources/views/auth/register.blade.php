@@ -10,10 +10,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
     
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @endif
-    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-pink-50 via-white to-rose-50 min-h-screen font-sans">
@@ -21,21 +18,61 @@
     <!-- Navigation Header -->
     <header class="w-full py-6 px-6 lg:px-8">
         <nav class="max-w-7xl mx-auto flex items-center justify-between">
-            <!-- Login Link
-            <div class="flex items-center gap-3">
-                <span class="text-gray-600 text-sm">Sudah punya akun?</span>
-                <a href="{{ route('login') }}" 
-                   class="px-6 py-2.5 bg-white border-2 border-gray-200 text-gray-700 rounded-lg hover:border-pink-500 hover:text-pink-600 transition-all font-medium">
-                    Login
-                </a>
-            </div>
-             -->
         </nav>
     </header>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-6 lg:px-8 py-8 lg:py-12">
         <div class="max-w-md mx-auto">
+            
+            <!-- Success Notification -->
+            @if (session('success'))
+            <div class="mb-6 p-5 rounded-2xl border border-rose-300 bg-rose-50/70 shadow-lg backdrop-blur-sm 
+                        animate-[fadeIn_0.3s_ease-out]">
+
+                <div class="flex items-start gap-4">
+
+                    <!-- Icon -->
+                    <div class="w-10 h-10 bg-pink-200 rounded-full flex items-center justify-center shadow">
+                        <svg class="w-6 h-6 text-pink-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" 
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" 
+                                clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+
+                    <!-- Text -->
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-rose-700">
+                            Registrasi Berhasil!
+                        </h3>
+
+                        <p class="text-sm text-rose-600 mt-1">
+                            {{ session('success') }}
+                        </p>
+
+                        <div class="mt-4 flex gap-3">
+
+                            <!-- Login Button -->
+                            <a href="{{ route('login') }}"
+                            class="px-4 py-2 rounded-lg bg-gradient-to-r from-rose-500 to-pink-500 text-white 
+                                    font-semibold shadow hover:shadow-md transition-all text-sm">
+                                Login Sekarang
+                            </a>
+
+                            <!-- Home Button -->
+                            <a href="{{ url('/') }}"
+                            class="px-4 py-2 rounded-lg bg-white border border-rose-300 text-rose-600 
+                                    font-semibold shadow-sm hover:bg-rose-50 transition-all text-sm">
+                                Kembali ke Home
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            @endif
             
             <!-- Register Card -->
             <div class="bg-white rounded-3xl shadow-2xl p-8 lg:p-10 space-y-8 relative overflow-hidden">
@@ -57,6 +94,7 @@
                         <h1 class="text-3xl lg:text-4xl font-bold text-gray-900">
                             Get Started
                         </h1>
+                        <p class="text-gray-600">Buat akun baru untuk mengakses sistem</p>
                     </div>
 
                     <!-- Register Form -->
@@ -81,8 +119,7 @@
                                        required 
                                        autofocus 
                                        autocomplete="name"
-                                       class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:ring-4 focus:ring-pink-100 transition-all outline-none @error('name') border-red-500 @enderror"
-                                       placeholder="John Doe">
+                                       class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:ring-4 focus:ring-pink-100 transition-all outline-none @error('name') border-red-500 @enderror">
                             </div>
                             @error('name')
                                 <p class="mt-2 text-sm text-red-600 flex items-center gap-1">
@@ -111,8 +148,7 @@
                                        value="{{ old('email') }}" 
                                        required 
                                        autocomplete="username"
-                                       class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:ring-4 focus:ring-pink-100 transition-all outline-none @error('email') border-red-500 @enderror"
-                                       placeholder="nama@email.com">
+                                       class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:ring-4 focus:ring-pink-100 transition-all outline-none @error('email') border-red-500 @enderror">
                             </div>
                             @error('email')
                                 <p class="mt-2 text-sm text-red-600 flex items-center gap-1">

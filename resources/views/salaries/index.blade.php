@@ -69,6 +69,17 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex items-center justify-center gap-2">
+
+                           <a href="{{ route('salaries.downloadSlip', $salary->id) }}" 
+                                class="p-2 bg-rose-500 hover:bg-rose-600 text-white rounded-lg transition-all group relative">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                    </svg>                                   
+                                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                        Download Slip
+                                    </span>
+                                </a>
+
                             <a href="{{ route('salaries.show', $salary->id) }}" 
                                class="p-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all group relative">
                                 <i data-lucide="eye" class="w-4 h-4"></i>

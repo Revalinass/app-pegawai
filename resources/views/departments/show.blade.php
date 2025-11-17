@@ -60,56 +60,13 @@
                 @endif
             </div>
         </div>
-    {{--
-        <!-- Informasi Tambahan -->
-        <div class="grid grid-cols-2 gap-4 mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
-            <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1 flex items-center gap-1">
-                    <i data-lucide="calendar-plus" class="w-3 h-3"></i>
-                    Dibuat
-                </label>
-                <p class="text-sm text-gray-800">
-                    {{ $department->created_at->format('d M Y, H:i') }}
-                </p>
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1 flex items-center gap-1">
-                    <i data-lucide="calendar-clock" class="w-3 h-3"></i>
-                    Terakhir Update
-                </label>
-                <p class="text-sm text-gray-800">
-                    {{ $department->updated_at->format('d M Y, H:i') }}
-                </p>
-            </div>
-        </div>
-        --}}
-        
         <!-- Buttons -->
-         {{--
-        <div class="flex gap-3 pt-4 border-t">
-            <a href="{{ route('departments.edit', $department->id) }}" 
-               class="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-rose to-accent text-white rounded-lg hover:shadow-lg transition-all font-semibold">
-                <i data-lucide="pencil" class="w-4 h-4"></i>
-                Edit Department
-            </a>
-            --}}
+        <div class="flex gap-3 pt-4 border-t">    
             <a href="{{ route('departments.index') }}" 
                class="flex items-center gap-2 px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all font-semibold">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i>
                 Kembali
             </a>
-            {{--
-            <form action="{{ route('departments.destroy', $department->id) }}" method="POST" class="inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" 
-                        onclick="return confirm('Yakin ingin menghapus department ini?')"
-                        class="flex items-center gap-2 px-6 py-2.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all font-semibold">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    Hapus
-                </button>
-            </form>
-            --}}
         </div>
     </div>
 </div>

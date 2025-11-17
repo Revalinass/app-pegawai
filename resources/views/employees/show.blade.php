@@ -100,7 +100,7 @@
                 <p class="text-lg font-bold text-gray-900">Rp {{ number_format($employee->position->gaji_pokok, 0, ',', '.') }}</p>
             </div>
 
-            <!-- Timestamp -->
+            <!-- Timestamp
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                     <label class="block text-sm font-medium text-gray-500 mb-2">Dibuat Pada</label>
@@ -111,16 +111,12 @@
                     <p class="text-sm text-gray-700">{{ $employee->updated_at->format('d M Y, H:i') }}</p>
                 </div>
             </div>
+             -->
         </div>
     </div>
 
     <!-- Card Footer -->
     <div class="bg-gray-50 px-6 py-4 flex gap-3">
-        <a href="{{ route('employees.edit', $employee->id) }}" 
-           class="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-rose to-accent text-white rounded-lg hover:shadow-lg transition-all font-semibold">
-            <i data-lucide="edit" class="w-4 h-4"></i>
-            Edit
-        </a>
         <a href="{{ route('employees.index') }}" 
            class="flex items-center gap-2 px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-semibold">
             <i data-lucide="arrow-left" class="w-4 h-4"></i>

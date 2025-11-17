@@ -15,16 +15,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Authentication Routes (Public)
+// Authentication Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
+Route::get('salaries/verify', [SalaryController::class, 'verify'])->name('salaries.verify');
+Route::middleware(['auth'])->group(function () {
+    
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    
+    Route::get('salaries/{salary}/download-slip', [SalaryController::class, 'downloadSlip'])
+        ->name('salaries.downloadSlip');
+// Resource Routes
 Route::resource('employees', EmployeeController::class);
 Route::resource('departments', DepartmentController::class);
 Route::resource('attendances', AttendanceController::class);
 Route::resource('salaries', SalaryController::class);
 Route::resource('positions', PositionController::class);
 Route::resource('leaves', LeaveController::class);
+}); 
