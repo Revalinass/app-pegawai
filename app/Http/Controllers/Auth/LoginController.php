@@ -35,7 +35,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             // Login berhasil
             $request->session()->regenerate();
-            return redirect()->intended('/employees');
+            return redirect()->intended('/departments');
         }
 
         // Login gagal

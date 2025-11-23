@@ -97,7 +97,7 @@ class SalaryController extends Controller
                         ->findOrFail($id);
         
         $bulan = \Carbon\Carbon::parse($salary->periode)->locale('id')->isoFormat('MMMM YYYY');
-        $tanggal_cetak = now()->locale('id')->isoFormat('dddd, DD MMMM YYYY HH:mm') . ' WIB';
+        $tanggal_cetak = now('Asia/Jakarta')->locale('id')->isoFormat('dddd, DD MMMM YYYY HH:mm') . ' WIB';
         $employee = $salary->employee;
         
         $pdf = Pdf::loadView('salaries.slip-pdf', compact('salary', 'employee', 'bulan', 'tanggal_cetak'));

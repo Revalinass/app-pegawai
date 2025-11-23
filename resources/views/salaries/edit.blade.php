@@ -77,7 +77,29 @@
                 @enderror
             </div>
 
-            <!-- Gaji Pokok -->
+            <!-- Potongan -->
+             <div>
+                <label for="gaji_pokok" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Potongan
+                </label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
+                    <input type="number" 
+                           id="potongan" 
+                           name="potongan" 
+                           value="{{ old('potongan', 0) }}"
+                           class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('potongan') border-red-500 @enderror" 
+                           placeholder="0">
+                </div>
+                @error('potongan')
+                    <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                        {{ $message }}
+                    </p>
+                @enderror
+            </div>
+
+            <!-- Gaji Pokok
             <div>
                 <label for="gaji_pokok" class="block text-sm font-semibold text-gray-700 mb-2">
                     Gaji Pokok <span class="text-red-500">*</span>
@@ -98,6 +120,7 @@
                     </p>
                 @enderror
             </div>
+                -->
 
             <!-- Tunjangan -->
             <div>
@@ -113,27 +136,6 @@
                            class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('tunjangan') border-red-500 @enderror">
                 </div>
                 @error('tunjangan')
-                    <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
-                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
-                        {{ $message }}
-                    </p>
-                @enderror
-            </div>
-
-            <!-- Potongan -->
-            <div class="md:col-span-2">
-                <label for="potongan" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Potongan
-                </label>
-                <div class="relative">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
-                    <input type="number" 
-                           id="potongan" 
-                           name="potongan" 
-                           value="{{ old('potongan', $salary->potongan ?? 0) }}"
-                           class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('potongan') border-red-500 @enderror">
-                </div>
-                @error('potongan')
                     <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
                         <i data-lucide="alert-circle" class="w-4 h-4"></i>
                         {{ $message }}

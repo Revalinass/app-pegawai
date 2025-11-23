@@ -90,7 +90,7 @@
                     </h1>
                     
                     <p class="text-xl text-gray-600 leading-relaxed">
-                        Kelola data pegawai dengan mudah dan efisien. Sistem terintegrasi untuk manajemen karyawan yang lebih baik.
+                        Sistem ini dirancang untuk mempermudah pengelolaan data pegawai, mulai dari informasi karyawan, posisi, departemen, absensi, hingga penggajian dalam satu aplikasi terpadu.
                     </p>
                 </div>          
             </div>
