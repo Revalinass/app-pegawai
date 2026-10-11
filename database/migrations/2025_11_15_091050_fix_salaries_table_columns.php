@@ -6,17 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        //
+        // Cleanup sudah dilakukan manual via tinker
+        // Kolom duplikat (karyawan_id, bulan) sudah dihapus
+        // Database sudah benar, tidak perlu action
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         //
