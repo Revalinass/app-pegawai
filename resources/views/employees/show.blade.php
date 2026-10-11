@@ -60,18 +60,18 @@
                 </div>
             </div>
 
-            <!-- Tanggal Lahir -->
-            <div class="pb-5 border-b border-gray-200">
-                <label class="block text-sm font-medium text-gray-500 mb-2">Tanggal Lahir</label>
-                <p class="text-base text-gray-900">{{ $employee->tanggal_lahir->format('d F Y') }}</p>
-                <p class="text-sm text-gray-500 mt-1">{{ $employee->tanggal_lahir->age }} tahun</p>
-            </div>
-
-            <!-- Tanggal Masuk -->
-            <div class="pb-5 border-b border-gray-200">
-                <label class="block text-sm font-medium text-gray-500 mb-2">Tanggal Masuk</label>
-                <p class="text-base text-gray-900">{{ $employee->tanggal_masuk->format('d F Y') }}</p>
-                <p class="text-sm text-gray-500 mt-1">Lama bekerja: {{ $employee->tanggal_masuk->diffForHumans(['parts' => 2]) }}</p>
+            <!-- Tanggal Lahir & Tanggal Masuk  -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pb-5 border-b border-gray-200">
+                <div>
+                    <label class="block text-sm font-medium text-gray-500 mb-2">Tanggal Lahir</label>
+                    <p class="text-base text-gray-900">{{ $employee->tanggal_lahir->format('d F Y') }}</p>
+                    <p class="text-sm text-gray-500 mt-1">{{ $employee->tanggal_lahir->age }} tahun</p>
+                </div>
+            <div>
+                    <label class="block text-sm font-medium text-gray-500 mb-2">Tanggal Masuk</label>
+                    <p class="text-base text-gray-900">{{ $employee->tanggal_masuk->format('d F Y') }}</p>
+                    <p class="text-sm text-gray-500 mt-1">Lama bekerja: {{ $employee->tanggal_masuk->diffForHumans(['parts' => 2]) }}</p>
+                </div>
             </div>
 
             <!-- Alamat -->

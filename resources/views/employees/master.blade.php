@@ -53,17 +53,43 @@
             animation: slideIn 0.4s ease-out;
         }
 
-        /* Dark Mode Extra Styling */
-        .dark .bg-white { background-color: #1f1f1f !important; }
-        .dark .text-gray-800 { color: #f0f0f0 !important; }
-        .dark .text-gray-600 { color: #d0d0d0 !important; }
-        .dark .border-gray-100, .dark .border-gray-200 { border-color: #444 !important; }
+        /* Dark Mode - Force Override Tailwind */
+        .dark body {
+            background-color: #121212 !important;
+        }
+        
+        .dark .bg-white { 
+            background-color: #1e1e1e !important; 
+        }
+        
+        .dark .text-gray-800 { 
+            color: #e5e5e5 !important; 
+        }
+        
+        .dark .text-gray-600 { 
+            color: #a3a3a3 !important; 
+        }
+        
+        .dark .border-gray-100, 
+        .dark .border-gray-200 { 
+            border-color: #333333 !important; 
+        }
+        
+        /* Table & Card backgrounds */
+        .dark table,
+        .dark .card {
+            background-color: #1e1e1e !important;
+        }
+        
+        .dark th {
+            background-color: #252525 !important;
+        }
     </style>
 </head>
-<body x-data="{ dark: localStorage.getItem('theme') === 'dark' }"
-      x-init="dark ? document.documentElement.classList.add('dark') : ''"
-      :class="{ 'dark': dark }"
-      class="bg-softpink dark:bg-gray-900 dark:text-gray-100 font-sans antialiased">
+    <body x-data="{ dark: localStorage.getItem('theme') === 'dark' }"
+        x-init="dark ? document.documentElement.classList.add('dark') : ''"
+        :class="{ 'dark': dark }"
+        class="bg-softpink font-sans antialiased">
 
     <!-- Sidebar -->
     <aside class="w-64 bg-white dark:bg-[#2a2a2a] fixed inset-y-0 left-0 shadow-2xl flex flex-col z-50 border-r-2 border-rose/10 dark:border-gray-700">

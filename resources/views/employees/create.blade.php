@@ -42,7 +42,6 @@
                        name="nama_lengkap" 
                        value="{{ old('nama_lengkap') }}"
                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('nama_lengkap') border-red-500 @enderror" 
-                       placeholder="Contoh: Ahmad Zulkifli"
                        required>
                 @error('nama_lengkap')
                     <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
@@ -62,7 +61,6 @@
                        name="email" 
                        value="{{ old('email') }}"
                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('email') border-red-500 @enderror" 
-                       placeholder="contoh@email.com"
                        required>
                 @error('email')
                     <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
@@ -82,7 +80,6 @@
                        name="nomor_telepon" 
                        value="{{ old('nomor_telepon') }}"
                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('nomor_telepon') border-red-500 @enderror" 
-                       placeholder="081234567890"
                        required>
                 @error('nomor_telepon')
                     <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
@@ -139,7 +136,6 @@
                           name="alamat" 
                           rows="3"
                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('alamat') border-red-500 @enderror" 
-                          placeholder="Alamat lengkap"
                           required>{{ old('alamat') }}</textarea>
                 @error('alamat')
                     <p class="mt-1 text-sm text-red-500 flex items-center gap-1">

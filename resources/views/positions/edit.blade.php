@@ -74,7 +74,7 @@
                 @enderror
             </div>
 
-            <!-- Deskripsi -->
+            <!-- Deskripsi
             <div>
                 <label for="deskripsi" class="block text-sm font-semibold text-gray-700 mb-2">
                     Deskripsi
@@ -91,7 +91,8 @@
                 @enderror
             </div>
         </div>
-
+        -->
+        
         <!-- Buttons -->
         <div class="flex gap-3 pt-6 mt-6 border-t">
             <button type="submit" 

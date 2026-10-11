@@ -66,7 +66,7 @@ class PositionController extends Controller
     
     public function show($id)
     {
-    $position = Position::with('employees')->findOrFail($id);
-    return view('positions.show', compact('position'));
+        $position = Position::with('employees')->findOrFail($id);
+        return view('positions.show', compact('position'));
     }
 }

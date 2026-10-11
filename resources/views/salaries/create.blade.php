@@ -42,11 +42,13 @@
                         class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('employee_id') border-red-500 @enderror"
                         required>
                     <option value="">-- Pilih Pegawai --</option>
-                    @foreach($employees as $employee)
-                        <option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
-                            {{ $employee->nama_lengkap }} - {{ $employee->position->nama_posisi }}
-                        </option>
-                    @endforeach
+                                @foreach($employees as $employee)
+                    <option value="{{ $employee->id }}" 
+                            data-gaji="{{ $employee->position->gaji_pokok ?? 0 }}"
+                            {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
+                        {{ $employee->nama_lengkap }} - {{ $employee->position?->nama_posisi ?? 'N/A' }}
+                    </option>
+                @endforeach
                 </select>
                 @error('employee_id')
                     <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
@@ -65,7 +67,7 @@
                        id="periode" 
                        name="periode" 
                        value="{{ old('periode', date('Y-m')) }}"
-                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('periode') border-red-500 @enderror" 
+                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('periode') border-red-500 @enderror"
                        required>
                 @error('periode')
                     <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
@@ -75,32 +77,12 @@
                 @enderror
             </div>
 
-            <!-- Gaji Pokok 
-            <div>
-                <label for="gaji_pokok" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Gaji Pokok <span class="text-red-500">*</span>
-                </label>
-                <div class="relative">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
-                    <input type="number" 
-                           id="potongan" 
-                           name="potongan" 
-                           value="{{ old('potongan', 0) }}"
-                           class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('potongan') border-red-500 @enderror" 
-                           placeholder="0">
-                </div>
-                @error('potongan')
-                    <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
-                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
-                        {{ $message }}
-                    </p>
-                @enderror
-            </div>
-            -->
+            <!-- Gaji Pokok (Hidden) -->
+            <input type="hidden" id="gaji_pokok" name="gaji_pokok" value="0" required>
 
             <!-- Potongan -->
             <div>
-                <label for="gaji_pokok" class="block text-sm font-semibold text-gray-700 mb-2">
+                <label for="potongan" class="block text-sm font-semibold text-gray-700 mb-2">
                     Potongan
                 </label>
                 <div class="relative">
@@ -109,7 +91,7 @@
                            id="potongan" 
                            name="potongan" 
                            value="{{ old('potongan', 0) }}"
-                           class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('potongan') border-red-500 @enderror" 
+                           class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('potongan') border-red-500 @enderror"
                            placeholder="0">
                 </div>
                 @error('potongan')
@@ -131,7 +113,7 @@
                            id="tunjangan" 
                            name="tunjangan" 
                            value="{{ old('tunjangan', 0) }}"
-                           class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('tunjangan') border-red-500 @enderror" 
+                           class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('tunjangan') border-red-500 @enderror"
                            placeholder="0">
                 </div>
                 @error('tunjangan')
@@ -169,19 +151,43 @@
 
 <script>
     lucide.createIcons();
-    
-    // Auto calculate total
-    function calculateTotal() {
-        const gajiPokok = parseFloat(document.getElementById('gaji_pokok').value) || 0;
-        const tunjangan = parseFloat(document.getElementById('tunjangan').value) || 0;
-        const potongan = parseFloat(document.getElementById('potongan').value) || 0;
-        
-        const total = gajiPokok + tunjangan - potongan;
-        document.getElementById('total-display').textContent = total.toLocaleString('id-ID');
+
+    const employeeSelect = document.getElementById('employee_id');
+    const gajiPokokHidden = document.getElementById('gaji_pokok');
+    const tunjanganInput = document.getElementById('tunjangan');
+    const potonganInput = document.getElementById('potongan');
+    const totalDisplay = document.getElementById('total-display');
+
+    function formatRupiah(number) {
+        return number.toLocaleString('id-ID');
     }
-    
-    document.getElementById('gaji_pokok').addEventListener('input', calculateTotal);
-    document.getElementById('tunjangan').addEventListener('input', calculateTotal);
-    document.getElementById('potongan').addEventListener('input', calculateTotal);
+
+    function hitungTotal() {
+        const gajiPokok = parseInt(gajiPokokHidden.value) || 0;
+        const tunjangan = parseInt(tunjanganInput.value) || 0;
+        const potongan = parseInt(potonganInput.value) || 0;
+
+        const total = gajiPokok + tunjangan - potongan;
+        totalDisplay.textContent = formatRupiah(total);
+    }
+
+    // Update gaji pokok saat pegawai dipilih
+    employeeSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const gajiPokok = parseInt(selectedOption.getAttribute('data-gaji')) || 0;
+        
+        gajiPokokHidden.value = gajiPokok;
+        hitungTotal();
+    });
+
+    // Update total saat tunjangan atau potongan berubah
+    tunjanganInput.addEventListener('input', hitungTotal);
+    potonganInput.addEventListener('input', hitungTotal);
+
+    // Trigger initial calculation if old values exist
+    if (employeeSelect.value) {
+        employeeSelect.dispatchEvent(new Event('change'));
+    }
 </script>
+
 @endsection

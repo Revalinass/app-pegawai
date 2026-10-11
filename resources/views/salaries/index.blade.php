@@ -5,6 +5,19 @@
 
 @section('content')
 
+<!-- Message jika data pegawai null -->
+@if(session('error'))
+    <div class="mb-6 bg-gradient-to-r from-red-50 to-rose-50 border-l-4 border-red-500 p-4 rounded-lg shadow-sm">
+        <div class="flex items-start gap-3">
+            <i data-lucide="alert-circle" class="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5"></i>
+            <div>
+                <h4 class="font-semibold text-red-900">Error!</h4>
+                <p class="text-sm text-red-800 mt-1">{{ session('error') }}</p>
+            </div>
+        </div>
+    </div>
+@endif
+
 <!-- Header -->
 <div class="flex justify-between items-center mb-6">
     <div>
@@ -50,9 +63,9 @@
                         {{ $salaries->firstItem() + $index }}
                     </td>
                     <td class="px-6 py-4 text-sm">
-                        <div class="font-semibold text-gray-800">{{ $salary->employee->nama_lengkap }}</div>
+                        <div class="font-semibold text-gray-800">{{ $salary->employee?->nama_lengkap ?? '-' }}</div>
                         <div class="text-xs text-gray-500 mt-0.5">
-                            {{ $salary->employee->position->nama_posisi ?? '-' }}
+                            {{ $salary->employee?->position?->nama_posisi ?? '-' }}
                         </div>
                     </td>
                     <td class="px-6 py-4 text-right text-sm text-gray-700">

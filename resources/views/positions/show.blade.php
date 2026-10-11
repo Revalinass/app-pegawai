@@ -44,11 +44,12 @@
                 <p class="text-2xl font-bold text-gray-900">Rp {{ number_format($position->gaji_pokok, 0, ',', '.') }}</p>
             </div>
 
-            <!-- Deskripsi -->
+            <!-- Deskripsi
             <div class="pb-5 border-b border-gray-200">
                 <label class="block text-sm font-medium text-gray-500 mb-2">Deskripsi</label>
                 <p class="text-base text-gray-900">{{ $position->deskripsi ?? '-' }}</p>
             </div>
+            -->
 
             <!-- Jumlah Pegawai -->
             <div class="pb-5 border-b border-gray-200">

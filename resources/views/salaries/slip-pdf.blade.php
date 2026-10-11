@@ -209,19 +209,19 @@
         <table>
             <tr>
                 <td>Nama Lengkap</td>
-                <td>: {{ $employee->nama_lengkap }}</td>
+                <td>: {{ $employee?->nama_lengkap ?? '-' }}</td>
             </tr>
             <tr>
                 <td>Posisi</td>
-                <td>: {{ $employee->position->nama_posisi ?? '-' }}</td>
+                <td>: {{ $employee?->position?->nama_posisi ?? '-' }}</td>
             </tr>
             <tr>
                 <td>Departemen</td>
-                <td>: {{ $employee->department->nama_department ?? '-' }}</td>
+                <td>: {{ $employee?->department?->nama_department ?? '-' }}</td>
             </tr>
             <tr>
                 <td>Email</td>
-                <td>: {{ $employee->email }}</td>
+                <td>: {{ $employee?->email ?? '-' }}</td>
             </tr>
         </table>
     </div>

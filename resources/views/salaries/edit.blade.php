@@ -44,10 +44,13 @@
                         required>
                     <option value="">-- Pilih Pegawai --</option>
                     @foreach($employees as $employee)
-                        <option value="{{ $employee->id }}" {{ old('employee_id', $salary->employee_id) == $employee->id ? 'selected' : '' }}>
-                            {{ $employee->nama_lengkap }} - {{ $employee->position->nama_posisi ?? '-' }}
+                        <option value="{{ $employee->id }}" 
+                                data-gaji="{{ $employee->position->gaji_pokok ?? 0 }}"
+                                {{ old('employee_id', $salary->employee_id) == $employee->id ? 'selected' : '' }}>
+                            {{ $employee->nama_lengkap }} - {{ $employee->position?->nama_posisi ?? 'N/A' }}
                         </option>
-                    @endforeach
+                @endforeach
+
                 </select>
                 @error('employee_id')
                     <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
@@ -65,7 +68,7 @@
                 <input type="month" 
                        id="periode" 
                        name="periode" 
-                       value="{{ old('periode', $salary->periode ? $salary->periode->format('Y-m') : '') }}"
+                       value="{{ old('periode', \Carbon\Carbon::parse($salary->periode)->format('Y-m')) }}"
                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('periode') border-red-500 @enderror" 
                        required>
                 <p class="mt-1 text-xs text-gray-500">Format: Bulan/Tahun (contoh: November 2025)</p>
@@ -87,7 +90,7 @@
                     <input type="number" 
                            id="potongan" 
                            name="potongan" 
-                           value="{{ old('potongan', 0) }}"
+                           value="{{ old('potongan', $salary->potongan ?? 0) }}"
                            class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose transition-all @error('potongan') border-red-500 @enderror" 
                            placeholder="0">
                 </div>
@@ -177,24 +180,29 @@
 
 <script>
     lucide.createIcons();
-    
-    // Auto calculate total
-    const gajiPokok = document.getElementById('gaji_pokok');
+
+    const gajiPokok = { value: {{ $salary->employee->position->gaji_pokok ?? 0 }} };
+
     const tunjangan = document.getElementById('tunjangan');
     const potongan = document.getElementById('potongan');
     const totalDisplay = document.getElementById('total_display');
-    
+
     function hitungTotal() {
         const gp = parseFloat(gajiPokok.value) || 0;
         const tj = parseFloat(tunjangan.value) || 0;
         const pot = parseFloat(potongan.value) || 0;
+
         const total = gp + tj - pot;
-        
         totalDisplay.value = 'Rp ' + total.toLocaleString('id-ID');
     }
-    
-    gajiPokok.addEventListener('input', hitungTotal);
+
+    // Hitung ketika mengedit input
     tunjangan.addEventListener('input', hitungTotal);
     potongan.addEventListener('input', hitungTotal);
+
+    // Hitung ulang total saat halaman pertama kali dibuka
+    window.addEventListener('load', hitungTotal);
 </script>
+
+
 @endsection

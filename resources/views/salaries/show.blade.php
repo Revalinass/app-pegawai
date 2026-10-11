@@ -35,8 +35,8 @@
             <!-- Pegawai -->
             <div class="pb-5 border-b border-gray-200">
                 <label class="block text-sm font-medium text-gray-500 mb-2">Pegawai</label>
-                <p class="text-lg font-semibold text-gray-900">{{ $salary->employee->nama_lengkap }}</p>
-                <p class="text-sm text-gray-600 mt-1">{{ $salary->employee->position->nama_posisi }}</p>
+                <p class="text-lg font-semibold text-gray-900">{{ $salary->employee?->nama_lengkap ?? '-' }}</p>
+                <p class="text-sm text-gray-600 mt-1">{{ $salary->employee?->position?->nama_posisi ?? '-' }}</p>
             </div>
 
             <!-- Periode -->
